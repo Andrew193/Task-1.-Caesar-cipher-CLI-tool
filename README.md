@@ -25,3 +25,24 @@ It will create a folder with our repository name homepage. Enter to the folder w
 `cd Task-1.-Caesar-cipher-CLI-tool`
 
 Now you can work with the code.
+
+**Usage example:**  
+1. _-a (--action)_ is **encode**
+
+```bash
+$ node my_caesar_cli -a encode -s 7 -i "./input.txt" -o "./output.txt"
+```
+> input.txt
+> `This is secret. Message about "_" symbol!`
+
+> output.txt
+> `Aopz pz zljyla. Tlzzhnl hivba "_" zftivs!`
+
+```bash
+$ node my_caesar_cli --action encode --shift 7 --input plain.txt --output encoded.txt
+```
+> plain.txt
+> `This is secret. Message about "_" symbol!`
+
+> encoded.txt
+> `Aopz pz zljyla. Tlzzhnl hivba "_" zftivs!`
