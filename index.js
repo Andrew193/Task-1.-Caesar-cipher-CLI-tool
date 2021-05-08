@@ -33,37 +33,39 @@ class UppercaseCharacters extends Transform {
     if (encoding === 'buffer') {
       chunk = this._decoder.write(chunk)
     }
-
     // Exit on CTRL + C.
     if (chunk === '\u0003') {
-      process.stdout.write(this.message.join(""))
+      process.stdout.write("Text: "+this.message.join(""))
       process.exit()
     }
 
+    let temp=""
     // Uppercase lowercase letters.
-    if (program.opts().action === "encode") {
-      if (chunk >= 'A' && chunk <= 'Z') {
-        chunk = String.fromCharCode(chunk.charCodeAt(0) + 1);
-        (chunk >= '[') && (chunk = String.fromCharCode(64 + (chunk.charCodeAt(0) - 90)))
+    const shift=+program.opts().shift;
+    for (let i = 0; i <chunk.length; i++) {
+      if (program.opts().action === "encode") {
+        if (chunk[i] >= 'A' && chunk[i] <= 'Z') {
+          temp = String.fromCharCode(chunk[i].charCodeAt(0) + shift);
+          (temp >= '[') && (temp = String.fromCharCode(64 + (temp.charCodeAt(0) - 90)))
+        }
+        if (chunk[i] >= 'a' && chunk[i] <= 'z') {
+          temp = String.fromCharCode(chunk[i].charCodeAt(0) + shift);
+          (temp >= '{') && (temp = String.fromCharCode(97 + (temp.charCodeAt(0) - 122)))
+        }
+      } else if(program.opts().action === "decode"){
+        if (chunk[i] >= 'A' && chunk[i] <= 'Z') {
+          temp = String.fromCharCode(chunk[i].charCodeAt(0) - shift);
+          (temp <= '@') && (temp = String.fromCharCode(90 - (64-temp.charCodeAt(0))))
+        }
+        if (chunk[i] >= 'a' && chunk[i] <= 'z') {
+          temp = String.fromCharCode(chunk[i].charCodeAt(0) - shift);
+          (temp <= '`') && (temp = String.fromCharCode(122 - (97-temp.charCodeAt(0))+1))
+        }
       }
-      if (chunk >= 'a' && chunk <= 'z') {
-        chunk = String.fromCharCode(chunk.charCodeAt(0) + 1);
-        (chunk >= '{') && (chunk = String.fromCharCode(97 + (chunk.charCodeAt(0) - 122)))
-      }
-    } else if(program.opts().action === "decode"){
-      if (chunk >= 'A' && chunk <= 'Z') {
-        chunk = String.fromCharCode(chunk.charCodeAt(0) - 1);
-        (chunk <= '@') && (chunk = String.fromCharCode(90 - (64-chunk.charCodeAt(0))))
-      }
-      if (chunk >= 'a' && chunk <= 'z') {
-        chunk = String.fromCharCode(chunk.charCodeAt(0) - 1);
-        (chunk <= '`') && (chunk = String.fromCharCode(122 - (97-chunk.charCodeAt(0))+1))
-      }
+      this.message.push(temp)
     }
-    this.message.push(chunk)
-    console.log(this.message.join(""));
     // Pass the chunk on.
-    callback(null, chunk)
+    callback(null, '')
   }
 }
 
@@ -73,11 +75,11 @@ Stream.pipeline(
   program.opts().output ? createWriteStream(program.opts().output) : process.stdout,
   (err) => {
     if (err) {
-      process.stderr("Faild to read or write")
+      process.stderr.write("Failed to write or read")
       process.exit(1);
     }
   }
 )
-let r = `Ctrl + C to exit`
+
 
 
