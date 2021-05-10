@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "name": "task-1.-caesar-cipher-cli-tool",
+  "version": "1.0.0",
+  "description": "**Implement CLI tool that will encode and decode a text by [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher)**.",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^7.2.0",
+    "pipeline": "^0.1.3",
+    "stream": "0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrew193/Task-1.-Caesar-cipher-CLI-tool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrew193/Task-1.-Caesar-cipher-CLI-tool/issues"
+  },
+  "homepage": "https://github.com/Andrew193/Task-1.-Caesar-cipher-CLI-tool#readme"
+}
